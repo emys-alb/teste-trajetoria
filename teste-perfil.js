@@ -6,9 +6,9 @@ d3.json(url)
     .then( res => {
         
         const assets = res.asset_history
-        const affil = res.affiliation_history
+        const affillitions = res.affiliation_history
 
-        var height = 500;
+        var height = 350;
         var width = 600;
         
         //Adiciona elemento no html. ok
@@ -16,13 +16,17 @@ d3.json(url)
         .append("svg")
         .attr("width", width)
         .attr("height", height)
+        .style("padding", "30px 60px 30px 30px")
         .attr("id", "svg")
         
         //Criando escalas
-        escalaX = d3.scaleLinear()
-        .domain([affil[0].started_in, 2020])
-        .range([0, d3.max(assets, (d) => d.year)])
+        escalaX = d3.scaleTime()
+        .domain([affillitions[0].started_in, "2020-10-08"])
+        .rangeRound([20, width - 50])
 
+        escalaY = d3.scaleLinear()
+        .domain([0, d3.max(assets, (d) => d.value)])
+        .range([20, height - 100])
         
         //Criar circulos com os valores do patrimonio    
             svg
@@ -31,14 +35,12 @@ d3.json(url)
             .enter()
             .append("circle")
             .attr("class", "assetValues")
-            .attr("cx", (d) => escalaX(d.year))
-            .attr("cy", (d) => (d.value))
+            .attr("cx", (d) => this.escalaX(d.year))
+            .attr("cy", (d) => this.escalaY(d.value))
             .attr("r", 8)
             .attr("fill", "#6f42c1")
 
         //Criar retas entre os valores TODO
         
-        //Preencher area //TODO
-        
-
+        //Preencher area TODO
     })

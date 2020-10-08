@@ -2,40 +2,40 @@
 const url = "https://api-perfilpolitico.serenata.ai/api/candidate/2309762/"
 
 //Coletando o dado.
-var dados = d3.json(url)
-        .then(res => {
-            //alerta o valor do patrimonio da candidata.
-        //alert(res.asset_history[1].value);
-            
-        })
-        .catch(() => {
-            console.log('deu errado')
-        })
+d3.json(url)
+    .then( res => {
+        
+        const assets = res.asset_history
 
-var 
-    width = 880,
-    height = 880;
-    
-var viewBox = {
-    width: width,
-    height: height
-}
+        //Criando a escala
+        var x = 0;
+        var y = 0;
+        
+        var height = 800;
+        var width = 880;
+        
+        //Adiciona elemento no html. ok
+        const svg = d3.select("#grafico")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("id", "svg")
+        
+        //Criar circulos com os valores do patrimonio    
+            svg
+            .selectAll("circle")
+            .data(assets)
+            .enter()
+            .append("circle")
+            .attr("class", "assetValues")
+            .attr("cx", (d) => (d.year))
+            .attr("cy", (d) => (d.value))
+            .attr("r", 8)
+            .attr("fill", "#6f42c1")
 
-var data = [8, 56, 40 ,3 ,34, 20]
+        //Criar retas entre os valores TODO
+        
+        //Preencher area //TODO
+        
 
-//Adiciona elemento no html.
-d3.select("#grafico").append("svg")
-    .attr("viewBox", "0 0 " + viewBox.width + " " + viewBox.height)
-    .attr("id", "canvas");
-
-
-//Criando circulos no svg
-d3.select("#canvas")
-    .selectAll("circle")
-    .data(data)
-    .join("circle")
-        .attr("cx", data => data * 10)
-        .attr("cy", 200)
-        .attr("r", 8)
-        .attr("fill", "purple");
-
+    })

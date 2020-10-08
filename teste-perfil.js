@@ -6,20 +6,23 @@ d3.json(url)
     .then( res => {
         
         const assets = res.asset_history
+        const affil = res.affiliation_history
 
-        //Criando a escala
-        var x = 0;
-        var y = 0;
-        
-        var height = 800;
-        var width = 880;
+        var height = 500;
+        var width = 600;
         
         //Adiciona elemento no html. ok
         const svg = d3.select("#grafico")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .attr("id", "svg")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("id", "svg")
+        
+        //Criando escalas
+        escalaX = d3.scaleLinear()
+        .domain([affil[0].started_in, 2020])
+        .range([0, d3.max(assets, (d) => d.year)])
+
         
         //Criar circulos com os valores do patrimonio    
             svg
@@ -28,7 +31,7 @@ d3.json(url)
             .enter()
             .append("circle")
             .attr("class", "assetValues")
-            .attr("cx", (d) => (d.year))
+            .attr("cx", (d) => escalaX(d.year))
             .attr("cy", (d) => (d.value))
             .attr("r", 8)
             .attr("fill", "#6f42c1")

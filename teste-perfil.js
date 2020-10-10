@@ -28,8 +28,8 @@ d3.json(url)
         .rangeRound([0, this.width])
 
         const escalaY = d3.scaleLinear()
-        .domain([0, 500])
-        .range([this.height, 20])
+        .domain([d3.min(assets.value), d3.max(assets.value)])
+        .range([this.height, 0])
 
         //Criar circulos com os valores do patrimonio    
         g.selectAll("circle")
@@ -38,7 +38,7 @@ d3.json(url)
             .append("circle")
             .attr("class", "assetValues")
             .attr("cx", (d) => this.escalaX(d.year))
-            .attr("cy", 20)
+            .attr("cy", d => this.escalaY(d.value))
             .attr("r", 8)
             .attr("fill", "#6f42c1")
 

@@ -24,12 +24,12 @@ d3.json(url)
         
         //Criando escalas
         const escalaX = d3.scaleTime()
-        .domain([affillitions[0].started_in, "2020-10-08"])
-        .rangeRound([0, this.width])
+            .domain([affillitions[0].started_in, "2020-10-08"])
+            .rangeRound([0, this.width])
 
         const escalaY = d3.scaleLinear()
-        .domain([d3.min(assets.value), d3.max(assets.value)])
-        .range([this.height, 0])
+            .domain([d3.min(assets.value), d3.max(assets.value)])
+            .range([this.height, 0])
 
         //Criar circulos com os valores do patrimonio    
         g.selectAll("circle")
@@ -38,13 +38,11 @@ d3.json(url)
             .append("circle")
             .attr("class", "assetValues")
             .attr("cx", (d) => this.escalaX(d.year))
-            .attr("cy", d => this.escalaY(d.value))
+            .attr("cy", (d) => this.escalaY(d.value))
             .attr("r", 8)
             .attr("fill", "#6f42c1")
 
         //Criar retas entre os valores TODO
-        const line = d3.line()([10,60], [40, 90], [60, 10], [190, 10])
-
         d3.select("#svg")
             .append("path")
             .attr("d", line)

@@ -11,7 +11,7 @@ d3.json(url)
         const height = 350;
         const width = 600;
         
-        //Adiciona elemento no html. ok
+        //Adiciona o svg no html
         const svg = d3.select("#grafico")
         .append("svg")
         .attr("width", width)
@@ -20,16 +20,16 @@ d3.json(url)
         .attr("id", "svg")
 
         const g = svg.append("g")
-            .attr("transform", 'translate(0, ' + this.height - 30 + ')')
+            .attr("transform", 'translate(' + 60 + ', ' + 30 + ')')
         
         //Criando escalas
         const escalaX = d3.scaleTime()
-            .domain([Date.parse(affillitions[0].started_in), new Date(2020, 10, 10)])
-            .rangeRound([0, this.width])
+            .domain([affillitions[0].started_in, Date.now])
+            .rangeRound([0, width])
 
         const escalaY = d3.scaleLinear()
-            .domain([d3.min(assets.value), d3.max(assets.value)])
-            .range([this.height, 0])
+            .domain([d3.min(assets, (d) => d.value), d3.max(assets, (d) => d.value)])
+            .range([height, 0])
 
         //Criar circulos com os valores do patrimonio    
         g.selectAll("circle")
@@ -37,14 +37,13 @@ d3.json(url)
             .enter()
             .append("circle")
             .attr("class", "assetValues")
-            .attr("cx", (d) => this.escalaX(d.year))
-            .attr("cy", (d) => this.escalaY(d.value))
+            .attr("cx", (d) => escalaX(d.year))
+            .attr("cy", (d) => escalaY(d.value))
             .attr("r", 8)
             .attr("fill", "#6f42c1")
 
         //Criar retas entre os valores TODO
         
-
         //Preencher area TODO
         
         // Sinalizar se foi eleito ou não TODO

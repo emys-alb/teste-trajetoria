@@ -19,12 +19,12 @@ d3.json(url)
         .style("padding", "30px 60px 30px 30px")
         .attr("id", "svg")
 
-        const g = this.svg
-            .append('g')
+        const g = svg.append("g")
+            .attr("transform", 'translate(0, ' + this.height - 30 + ')')
         
         //Criando escalas
         const escalaX = d3.scaleTime()
-            .domain([affillitions[0].started_in, "2020-10-08"])
+            .domain([Date.parse(affillitions[0].started_in), new Date(2020, 10, 10)])
             .rangeRound([0, this.width])
 
         const escalaY = d3.scaleLinear()
@@ -43,10 +43,7 @@ d3.json(url)
             .attr("fill", "#6f42c1")
 
         //Criar retas entre os valores TODO
-        d3.select("#svg")
-            .append("path")
-            .attr("d", line)
-            .attr("stroke", "black")
+        
 
         //Preencher area TODO
         

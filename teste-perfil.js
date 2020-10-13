@@ -45,13 +45,15 @@ d3.json(url)
             .attr("fill", "#6f42c1")
 
         //Criar retas entre os valores TODO
+            const line = d3.line()
+            .x((d) => escalaX(new Date(d.year, 0, 1)))
+            .y((d) => escalaY(d.value))
+
             g.selectAll("rect")
             .data(assets)
             .enter()
-            .append('line')
+            .append(line)
             .attr("class", "path")
-                .x((d) => escalaX(new Date(d.year, 0, 1)))
-                .y((d) => escalaY(d.value))
                 .attr("stroke-width", 5)
                 .style('stroke', "#6f42c1")
                 .style('stroke-width', 5);

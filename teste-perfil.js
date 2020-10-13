@@ -45,20 +45,15 @@ d3.json(url)
             .attr("fill", "#6f42c1")
 
         //Criar retas entre os valores TODO
-
-        const path = d3.line()
-            .data(assets)
-            .enter()
-            .x((d) => escalaX(new Date(d.year, 0, 1)))
-            .y((d) => escalaY(d.value))
-            .attr("stroke-width", 5)
-            .attr("fill", "#6f42c1")
-
-        g.selectAll(".path")
+            g.selectAll("rect")
             .data(assets)
             .enter()
             .attr("class", "path")
-            .append(path)
+            .append('line')
+                .x((d) => escalaX(new Date(d.year, 0, 1)))
+                .y((d) => escalaY(d.value))
+                .attr("stroke-width", 5)
+                .style('stroke', "#6f42c1");
             
         
         //Preencher area TODO

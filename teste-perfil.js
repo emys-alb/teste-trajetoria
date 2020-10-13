@@ -9,8 +9,8 @@ d3.json(url)
         const affillitions = res.affiliation_history
         const elections = res.election_history
 
-        const height = 350;
-        const width = 600;
+        const height = 350
+        const width = 600
         
         //Adiciona o svg no html
         const svg = d3.select("#grafico")
@@ -48,12 +48,13 @@ d3.json(url)
             g.selectAll("rect")
             .data(assets)
             .enter()
-            .attr("class", "path")
             .append('line')
+            .attr("class", "path")
                 .x((d) => escalaX(new Date(d.year, 0, 1)))
                 .y((d) => escalaY(d.value))
                 .attr("stroke-width", 5)
-                .style('stroke', "#6f42c1");
+                .style('stroke', "#6f42c1")
+                .style('stroke-width', 5);
             
         
         //Preencher area TODO

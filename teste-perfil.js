@@ -49,15 +49,15 @@ d3.json(url)
             .x((d) => escalaX(new Date(d.year, 0, 1)))
             .y((d) => escalaY(d.value))
 
-            g.selectAll("rect")
-            .data(assets)
-            .enter()
-            .append(line)
-            .attr("class", "path")
-                .attr("stroke-width", 5)
-                .style('stroke', "#6f42c1")
-                .style('stroke-width', 5);
             
+            g.append("path")
+              .datum(assets)
+              .enter()
+              .attr("class", "path")
+              .attr("fill", "none")
+              .attr("stroke", "6f42c1")
+              .attr("stroke-width", 3)
+              .attr("d", line)
         
         //Preencher area TODO
         

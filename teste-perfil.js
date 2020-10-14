@@ -17,7 +17,7 @@ d3.json(url)
         .append("svg")
         .attr("width", width)
         .attr("height", height)
-        .style("padding", "30px 0px 0px 30px")
+        .style("padding", "30px 0px 0px 0px")
         .attr("id", "svg")
 
         //Criando o gráfico
@@ -31,7 +31,7 @@ d3.json(url)
 
         const escalaY = d3.scaleLinear()
             .domain([d3.min(assets, (d) => d.value), d3.max(assets, (d) => d.value)])
-            .range([height - 40, 0])
+            .range([height - 60, 0])
 
         //Criar circulos com os valores do patrimonio    
         g.selectAll(".assetValues")
@@ -44,7 +44,7 @@ d3.json(url)
             .attr("r", 7)
             .attr("fill", "#6f42c1")
 
-        //Criar retas entre os valores TODO
+        //Criar retas entre os valores
             const line = d3.line()
             .x((d) => escalaX(new Date(d.year, 0, 1)))
             .y((d) => escalaY(d.value))
@@ -52,23 +52,31 @@ d3.json(url)
             
             g.append("path")
               .datum(assets)
-              .enter()
               .attr("fill", "none")
-              .attr("stroke", "6f42c1")
-              .attr("stroke-width", 3)
+              .attr("stroke", "#6f42c1")
+              .attr("stroke-width", 4)
               .attr("d", line)
         
         //Preencher area TODO
         
-        // Sinaliza se foi eleito ou não TODO
+        // Sinaliza se foi eleito ou não
            g.selectAll(".affils")
             .data(elections.filter(d => d.elected))
             .enter()
             .append("rect")
             .attr("class", "affils")
             .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
-            .attr("y", height)
-            .attr('width', 10)
+            .attr("y", height - 40)
+            .attr('width', (d) => {
+                const inicio = escalaX(new Date(d.year + 1, 0, 1));
+                let fim;
+                if (d.post === 'SENADOR') {
+                  fim = escalaX(new Date(d.year + 8, 11, 30));
+                } else {
+                  fim = escalaX(new Date(d.year + 4, 11, 30));
+                }
+                return fim - inicio;
+              })
             .attr('height', 10)
             .attr('fill', 'green')
     })

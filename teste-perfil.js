@@ -53,7 +53,6 @@ d3.json(url)
             g.append("path")
               .datum(assets)
               .enter()
-              .attr("class", "path")
               .attr("fill", "none")
               .attr("stroke", "6f42c1")
               .attr("stroke-width", 3)
@@ -62,7 +61,7 @@ d3.json(url)
         //Preencher area TODO
         
         // Sinaliza se foi eleito ou não TODO
-          /* g.selectAll(".affils")
+           g.selectAll(".affils")
             .data(elections.filter(d => d.elected))
             .enter()
             .append("rect")
@@ -71,5 +70,5 @@ d3.json(url)
             .attr("y", height)
             .attr('width', 10)
             .attr('height', 10)
-            .attr('fill', 'green')*/
+            .attr('fill', 'green')
     })

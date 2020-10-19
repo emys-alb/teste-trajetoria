@@ -27,7 +27,7 @@ d3.json(url)
         //Criando escalas
         const escalaX = d3.scaleTime()
             .domain([Date.parse(affillitions[0].started_in), Date.now()])
-            .range([0, width])
+            .range([0, width - 30])
 
         const escalaY = d3.scaleLinear()
             .domain([d3.min(assets, (d) => d.value), d3.max(assets, (d) => d.value)])
@@ -61,7 +61,21 @@ d3.json(url)
           g.selectAll('.affils')
             .data(affillitions)
             .enter()
-            
+            .append("area")
+            .attr("class", "affils")
+              .x((d, i) => {
+                const inicio = escalaX(Date.parse(d.started_in));
+                let fim;
+                if (i === affillitions.lenght - 1) {
+                  fim = escalaX(new Date.now());
+                } else {
+                  fim = escalaX(Date.parse(d.started_in));
+                }
+                return fim - inicio;
+              })
+              .y1(escalaY(height))
+              .y0(escalaY(0))
+              .attr("fill", "#fdfd96")
         
         // Sinaliza se foi eleito ou não
            g.selectAll(".mandatos")
@@ -69,18 +83,18 @@ d3.json(url)
             .enter()
             .append("rect")
             .attr("class", "mandatos")
-            .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
-            .attr("y", height - 40)
-            .attr('width', (d) => {
-                const inicio = escalaX(new Date(d.year + 1, 0, 1));
-                let fim;
-                if (d.post === 'SENADOR') {
-                  fim = escalaX(new Date(d.year + 8, 11, 30));
-                } else {
-                  fim = escalaX(new Date(d.year + 4, 11, 30));
-                }
-                return fim - inicio;
-              })
-            .attr('height', 10)
-            .attr('fill', 'green')
+              .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
+              .attr("y", height - 40)
+              .attr('width', (d) => {
+                  const inicio = escalaX(new Date(d.year, 0, 1));
+                  let fim;
+                  if (d.post === 'SENADOR') {
+                    fim = escalaX(new Date(d.year + 8, 11, 30));
+                  } else {
+                    fim = escalaX(new Date(d.year + 4, 11, 30));
+                  }
+                  return fim - inicio;
+                })
+              .attr('height', 10)
+              .attr('fill', 'green')
     })

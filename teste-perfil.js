@@ -58,13 +58,17 @@ d3.json(url)
               .attr("d", line)
         
         //Preencher area TODO
+          g.selectAll('.affils')
+            .data(affillitions)
+            .enter()
+            
         
         // Sinaliza se foi eleito ou não
-           g.selectAll(".affils")
+           g.selectAll(".mandatos")
             .data(elections.filter(d => d.elected))
             .enter()
             .append("rect")
-            .attr("class", "affils")
+            .attr("class", "mandatos")
             .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
             .attr("y", height - 40)
             .attr('width', (d) => {

@@ -33,7 +33,7 @@ d3.json(url)
             .domain([d3.min(assets, (d) => d.value), d3.max(assets, (d) => d.value)])
             .range([height - 60, 0]);
             
-        //Preencher area TODO
+        //Preencher area
         g.selectAll('.affils')
           .data(affillitions)
           .enter()
@@ -42,7 +42,7 @@ d3.json(url)
             .attr("fill", "#fdfd96")
             .attr("height", escalaY(height))
             .attr("width", (d, i) => {
-              const inicio = escalaX(Date.parse(d.started_in));
+              const inicio = escalaX(Date.parse(affillitions[0].started_in));
               let fim;
               if (i === affillitions.length - 1) {
                 fim = escalaX(Date.now());

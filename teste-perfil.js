@@ -63,10 +63,10 @@ d3.json(url)
             .enter()
             .append("area")
             .attr("class", "affils")
-              .x((d, i) => {
+              .x((d) => {
                 const inicio = escalaX(Date.parse(d.started_in));
                 let fim;
-                if (i === affillitions.lenght - 1) {
+                if (Date.parse(d.started_in) === max(Date.parse(d.started_in))) {
                   fim = escalaX(new Date.now());
                 } else {
                   fim = escalaX(Date.parse(d.started_in));

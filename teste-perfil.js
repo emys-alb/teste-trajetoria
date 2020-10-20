@@ -42,12 +42,12 @@ d3.json(url)
             .attr("fill", "#fdfd96")
             .attr("height", escalaY(height))
             .attr("width", (d, i) => {
-              const inicio = escalaX(Date.parse(affillitions[0].started_in));
+              const inicio = escalaX(Date.parse(d.started_in));
               let fim;
               if (i === affillitions.length - 1) {
-                fim = escalaX(Date.now());
+                fim = escalaX(Date.now);
               } else {
-                fim = escalaX(Date.parse(d.started_in));
+                fim = escalaX(Date.parse(affillitions[i + 1].started_in));
               }
               return fim - inicio;
             })

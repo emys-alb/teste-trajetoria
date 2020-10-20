@@ -31,7 +31,27 @@ d3.json(url)
 
         const escalaY = d3.scaleLinear()
             .domain([d3.min(assets, (d) => d.value), d3.max(assets, (d) => d.value)])
-            .range([height - 60, 0])
+            .range([height - 60, 0]);
+            
+        //Preencher area TODO
+        g.selectAll('.affils')
+          .data(affillitions)
+          .enter()
+          .append("rect")
+          .attr("class", "affils")
+            .attr("fill", "#fdfd96")
+            .attr("height", escalaY(height))
+            .attr("width", (d, i) => {
+              const inicio = escalaX(Date.parse(d.started_in));
+              let fim;
+              if (i === affillitions.length - 1) {
+                fim = escalaX(Date.now());
+              } else {
+                fim = escalaX(Date.parse(d.started_in));
+              }
+              return fim - inicio;
+            })
+            
 
         //Criar circulos com os valores do patrimonio    
         g.selectAll(".assetValues")
@@ -48,7 +68,6 @@ d3.json(url)
             const line = d3.line()
             .x((d) => escalaX(new Date(d.year, 0, 1)))
             .y((d) => escalaY(d.value))
-
             
             g.append("path")
               .datum(assets)
@@ -56,27 +75,7 @@ d3.json(url)
               .attr("stroke", "#6f42c1")
               .attr("stroke-width", 4)
               .attr("d", line)
-        
-        //Preencher area TODO
-          g.selectAll('.affils')
-            .data(affillitions)
-            .enter()
-            .append("area")
-            .attr("class", "affils")
-              .x((d) => {
-                const inicio = escalaX(Date.parse(d.started_in));
-                let fim;
-                if (Date.parse(d.started_in) === max(Date.parse(d.started_in))) {
-                  fim = escalaX(new Date.now());
-                } else {
-                  fim = escalaX(Date.parse(d.started_in));
-                }
-                return fim - inicio;
-              })
-              .y1(escalaY(height))
-              .y0(escalaY(0))
-              .attr("fill", "#fdfd96")
-        
+              
         // Sinaliza se foi eleito ou não
            g.selectAll(".mandatos")
             .data(elections.filter(d => d.elected))

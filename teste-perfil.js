@@ -22,16 +22,16 @@ d3.json(url)
 
         //Criando o gráfico
         const g = svg.append("g")
-            .attr("transform", 'translate(' + 65 + ', ' + 30 + ')')
+            .attr("transform", 'translate(' + 65 + ', ' + 0 + ')')
         
         //Criando escalas
         const escalaX = d3.scaleTime()
             .domain([Date.parse(affillitions[0].started_in), Date.now()])
-            .range([0, width - 30])
+            .range([0, width])
 
         const escalaY = d3.scaleLinear()
             .domain([d3.min(assets, (d) => d.value), d3.max(assets, (d) => d.value)])
-            .range([height - 60, 0]);
+            .range([height - 20, 0]);
             
         //Preencher area
         g.selectAll('.affils')
@@ -83,7 +83,7 @@ d3.json(url)
             .append("rect")
             .attr("class", "mandatos")
               .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
-              .attr("y", height - 40)
+              .attr("y", height - 10)
               .attr('width', (d) => {
                   const inicio = escalaX(new Date(d.year, 0, 1));
                   let fim;

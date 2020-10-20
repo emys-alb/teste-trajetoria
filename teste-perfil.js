@@ -31,12 +31,13 @@ d3.json(url)
             .domain([d3.min(assets, (d) => d.value), d3.max(assets, (d) => d.value)])
             .range([height, 0]);
             
-        //Preencher area
-      const cores = {
-        0: "#ffc69f",
-        1: "#fffcbb"
-      }
-
+      
+      //Preencher area
+        const cores = {
+          0: "#ffc69f",
+          1: "#fffcbb"
+          }
+      
         g.selectAll('.affils')
           .data(affillitions)
           .enter()
@@ -55,54 +56,64 @@ d3.json(url)
               return fim - inicio;
             })
             
-
-        //Criar circulos com os valores do patrimonio    
-        
-        g.selectAll(".assetValues")
-            .data(assets)
-            .enter()
-            .append("circle")
-            .attr("class", "assetValues")
-            .attr("cx", (d) => escalaX(new Date(d.year, 0, 1)))
-            .attr("cy", (d) => escalaY(d.value))
-            .attr("r", 7)
-            .attr("fill", "#6f42c1")
-
-        //Criar retas entre os valores
-            const line = d3.line()
-            .x((d) => escalaX(new Date(d.year, 0, 1)))
-            .y((d) => escalaY(d.value))
-            
-            g.append("path")
-              .datum(assets)
-              .attr("fill", "none")
-              .attr("stroke", "#6f42c1")
-              .attr("stroke-width", 5)
-              .attr("d", line)
-              
-        // Sinaliza se foi eleito ou não
-           g.selectAll(".mandatos")
+          // Sinaliza se foi eleito ou não
+          g.selectAll(".eleicoes")
             .data(elections)
             .enter()
             .append("rect")
-            .attr("class", "mandatos")
-              .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
-              .attr("y", height + 10)
-              .attr('width', (d) => {
-                  const inicio = escalaX(new Date(d.year, 0, 1));
-                  let fim;
-                  if (d.post === 'SENADOR') {
-                    fim = escalaX(new Date(d.year + 8, 11, 30));
-                  } else {
-                    fim = escalaX(new Date(d.year + 4, 11, 30));
-                  }
-                  return fim - inicio;
-                })
-              .attr('height', 10)
-              .attr('fill', (d) => {
-                if(d.elected)
-                  return 'green'; 
-                else
-                  return '#8B0000';
-              })
+            .attr("class", "eleicoes")
+            .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
+            .attr("y", height + 10)
+            .attr("width", (d) => {
+            const inicio = escalaX(new Date(d.year, 0, 1));
+            let fim;
+            if (d.post === "SENADOR") {
+              fim = escalaX(new Date(d.year + 8, 11, 30));
+            } else {
+              fim = escalaX(new Date(d.year + 4, 11, 30));
+            }
+            return fim - inicio;
+          })
+          .attr('height', 10)
+          .attr('fill', (d) => {
+            if(d.elected)
+            return 'green'; 
+            else
+            return '#8B0000';
+          })
+
+        //Divisão dos Mandatos
+        g.selectAll(".mandatos")
+          .data(elections)
+          .enter()
+          .append("rect")
+          .attr("class", "mandatos")
+          .attr("fill", "black")
+            .attr("height", height + margin.bottom)
+            .attr("width", 2)
+            .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
+            .attr("y", 0)
+
+          //Criar circulos com os valores do patrimonio    
+          g.selectAll(".assetValues")
+            .data(assets)
+            .enter()
+            .append("circle")
+              .attr("class", "assetValues")
+              .attr("cx", (d) => escalaX(new Date(d.year, 0, 1)))
+              .attr("cy", (d) => escalaY(d.value))
+              .attr("r", 7)
+              .attr("fill", "#6f42c1")
+  
+          //Criar retas entre os valores
+            const line = d3.line()
+            .x((d) => escalaX(new Date(d.year, 0, 1)))
+            .y((d) => escalaY(d.value))
+          
+          g.append("path")
+            .datum(assets)
+            .attr("fill", "none")
+            .attr("stroke", "#6f42c1")
+            .attr("stroke-width", 5)
+            .attr("d", line)
     })

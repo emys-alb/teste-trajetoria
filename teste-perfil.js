@@ -81,8 +81,8 @@ d3.json(url)
             else
             return '#8B0000';
           })
-
-        //Divisão dos Mandatos
+          /*
+        //Divisão dos mandatos 
         g.selectAll(".mandatos")
           .data(elections)
           .enter()
@@ -93,7 +93,7 @@ d3.json(url)
             .attr("width", 2)
             .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
             .attr("y", 0)
-
+          */
           //Criar circulos com os valores do patrimonio    
           g.selectAll(".assetValues")
             .data(assets)

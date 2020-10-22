@@ -21,35 +21,10 @@ d3.json(url)
         //Criando o gráfico
         const g = svg.append("g")
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-        
 
-        //------------Tooltips-------------------
-        /*
-        var tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0)
-        .style("visibility", "hidden")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "2px")
-        .style("border-radius", "5px")
-        .style("padding", "5px")
-        //Patrimonio
-        const tipPatrimonio = d3Tip()
-          .attr("class", "tooltip")
-          .attr("id", "tooltip-patrimonio")
-        //Filiação
-        const tipFiliacao = d3Tip()
-        .attr("class", "tooltip")
-        .attr("id", "tooltip-filiacao")
-
-        //Cargo
-        .attr("class", "tooltip")
-        .attr("id", "tooltip-cargo")
-        */
         //Criando escalas
         const escalaX = d3.scaleTime()
-            .domain([Date.parse(affillitions[0].started_in), Date.now()])
+            .domain([Date.parse(affillitions[0].started_in), Date.parse("2018-12-31")])
             .range([0, width])
 
         const escalaY = d3.scaleLinear()
@@ -78,7 +53,7 @@ d3.json(url)
               const inicio = escalaX(Date.parse(d.started_in));
               let fim;
               if (i === affillitions.length - 1) {
-                fim = escalaX(Date.now());
+                fim = escalaX(Date.parse("2020-12-31"));
               } else {
                 fim = escalaX(Date.parse(affillitions[i + 1].started_in));
               }
@@ -111,9 +86,9 @@ d3.json(url)
             return '#b54142';
           })
           
-        //Divisão dos mandatos 
+        //Eixo x
         g.selectAll(".mandatos")
-          .data(elections)
+          .data(elections.filter(d => d.elected))
           .enter()
           .append("rect")
           .attr("class", "mandatos")
@@ -122,6 +97,7 @@ d3.json(url)
             .attr("width", 1)
             .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
             .attr("y", 0)
+
           
           //Criar circulos com os valores do patrimonio    
           g.selectAll(".assetValues")

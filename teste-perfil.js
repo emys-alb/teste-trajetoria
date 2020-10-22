@@ -53,17 +53,17 @@ d3.json(url)
             .range([0, width])
 
         const escalaY = d3.scaleLinear()
-            .domain([d3.min(assets, (d) => d.value), d3.max(assets, (d) => d.value)])
+            .domain([d3.min(assets, (d) => d.value) , d3.max(assets, (d) => d.value)])
             .range([height, 0]);
             
       
       //Preencher area
         const escalaCores = d3.scaleOrdinal([
-          "#ADD8E6",
-          "#F9EAC3",
+          "#FFFCBB",
+          "#FFC69F",
           "#CCA9DD",
-          
-          "#C8F4FF"
+          "#C8F4FF",
+          "#FFBBBB"
         ])
           .domain([1, 80])
       
@@ -106,9 +106,9 @@ d3.json(url)
           .attr('height', 10)
           .attr('fill', (d) => {
             if(d.elected)
-            return 'green'; 
+            return '#43a467'; 
             else
-            return '#8B0000';
+            return '#b54142';
           })
           
         //Divisão dos mandatos 

@@ -21,7 +21,32 @@ d3.json(url)
         //Criando o gráfico
         const g = svg.append("g")
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-         
+        
+
+        //------------Tooltips-------------------
+        /*
+        var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+        .style("visibility", "hidden")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "2px")
+        .style("border-radius", "5px")
+        .style("padding", "5px")
+        //Patrimonio
+        const tipPatrimonio = d3Tip()
+          .attr("class", "tooltip")
+          .attr("id", "tooltip-patrimonio")
+        //Filiação
+        const tipFiliacao = d3Tip()
+        .attr("class", "tooltip")
+        .attr("id", "tooltip-filiacao")
+
+        //Cargo
+        .attr("class", "tooltip")
+        .attr("id", "tooltip-cargo")
+        */
         //Criando escalas
         const escalaX = d3.scaleTime()
             .domain([Date.parse(affillitions[0].started_in), Date.now()])
@@ -33,17 +58,21 @@ d3.json(url)
             
       
       //Preencher area
-        const cores = {
-          0: "#ffc69f",
-          1: "#fffcbb"
-          }
+        const escalaCores = d3.scaleOrdinal([
+          "#ADD8E6",
+          "#F9EAC3",
+          "#CCA9DD",
+          
+          "#C8F4FF"
+        ])
+          .domain([1, 80])
       
         g.selectAll('.affils')
           .data(affillitions)
           .enter()
           .append("rect")
           .attr("class", "affils")
-            .attr("fill", (d,i) => { return cores[i] })
+            .attr("fill", (d,i) => { return escalaCores(i) })
             .attr("height", escalaY(height))
             .attr("width", (d, i) => {
               const inicio = escalaX(Date.parse(d.started_in));
@@ -81,19 +110,19 @@ d3.json(url)
             else
             return '#8B0000';
           })
-          /*
+          
         //Divisão dos mandatos 
         g.selectAll(".mandatos")
           .data(elections)
           .enter()
           .append("rect")
           .attr("class", "mandatos")
-          .attr("fill", "black")
+          .attr("fill", "#353839")
             .attr("height", height + margin.bottom)
-            .attr("width", 2)
+            .attr("width", 1)
             .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
             .attr("y", 0)
-          */
+          
           //Criar circulos com os valores do patrimonio    
           g.selectAll(".assetValues")
             .data(assets)

@@ -30,7 +30,18 @@ d3.json(url)
         const escalaY = d3.scaleLinear()
             .domain([d3.min(assets, (d) => d.value) , d3.max(assets, (d) => d.value)])
             .range([height - 10, 10]);
-            
+        
+
+        //Eixo x TODO
+        const eixoX = d3.axisBottom()
+        .scale(escalaX)
+
+        //Eixo y TODO
+        const eixoY = d3.axisLeft() 
+        .scale(escalaY)
+
+        svg.call(eixoX)
+        svg.call(eixoY)
       
       //Preencher area
         const escalaCores = d3.scaleOrdinal([

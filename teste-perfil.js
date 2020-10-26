@@ -86,9 +86,9 @@ d3.json(url)
             return '#b54142';
           })
           
-        //Eixo x
+        //Linha dos mandatos
         g.selectAll(".mandatos")
-          .data(elections.filter(d => d.elected))
+          .data(elections)
           .enter()
           .append("rect")
           .attr("class", "mandatos")
@@ -97,8 +97,7 @@ d3.json(url)
             .attr("width", 1)
             .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
             .attr("y", 0)
-
-          
+     
           //Criar circulos com os valores do patrimonio    
           g.selectAll(".assetValues")
             .data(assets)

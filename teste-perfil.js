@@ -24,12 +24,12 @@ d3.json(url)
 
         //Criando escalas
         const escalaX = d3.scaleTime()
-            .domain([Date.parse(affillitions[0].started_in), Date.parse("2018-12-12")])
+            .domain([Date.parse(affillitions[0].started_in), Date.now()])
             .range([0, width])
 
         const escalaY = d3.scaleLinear()
             .domain([d3.min(assets, (d) => d.value) , d3.max(assets, (d) => d.value)])
-            .range([height, 0]);
+            .range([height - 10, 10]);
             
       
       //Preencher area
@@ -52,7 +52,7 @@ d3.json(url)
             .attr("width", (d, i) => {
               const inicio = escalaX(Date.parse(d.started_in));
               let fim;
-              if (i === affillitions.length - 1) {
+              if (i + 1 === affillitions.length) {
                 fim = escalaX(Date.now());
               } else {
                 fim = escalaX(Date.parse(affillitions[i + 1].started_in));
@@ -78,7 +78,7 @@ d3.json(url)
             }
             return fim - inicio;
           })
-          .attr('height', 10)
+          .attr('height', escalaY(height))
           .attr('fill', (d) => {
             if(d.elected)
             return '#43a467'; 
@@ -106,14 +106,14 @@ d3.json(url)
             .append("circle")
               .attr("class", "assetValues")
               .attr("cx", (d) => escalaX(new Date(d.year, 0, 1)))
-              .attr("cy", (d) => escalaY(d.value - 7))
+              .attr("cy", (d) => escalaY(d.value - 7000))
               .attr("r", 7)
               .attr("fill", "#6f42c1")
   
           //Criar retas entre os valores
             const line = d3.line()
             .x((d) => escalaX(new Date(d.year, 0, 1)))
-            .y((d) => escalaY(d.value - 7))
+            .y((d) => escalaY(d.value - 7000))
           
           g.append("path")
             .datum(assets)

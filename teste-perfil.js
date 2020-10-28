@@ -29,7 +29,7 @@ d3.json(url)
 
         const escalaY = d3.scaleLinear()
             .domain([d3.min(assets, (d) => d.value) , d3.max(assets, (d) => d.value)])
-            .range([height - 10, 10]);
+            .range([height - 20, 10]);
       
       //Preencher area
         const escalaCores = d3.scaleOrdinal([
@@ -125,14 +125,15 @@ d3.json(url)
           //Eixo x TODO
           const eixoX = d3.axisTop()
             .scale(escalaX)
-            .tickSize(width)
+            .tickSize(0)
 
           //Eixo y TODO
           const eixoY = d3.axisLeft() 
             .scale(escalaY)
             .tickSize(0)
-            .tickFormat(d3.format(".2"))
+            .tickFormat(d => { return d/1000000 })
             
             g.call(eixoX)
-            g.call(eixoY)
+              .call(eixoY)
+              .call(g => g.select(".domain").remove())
     })

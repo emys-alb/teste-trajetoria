@@ -125,7 +125,8 @@ d3.json(url)
           //Eixo x TODO
           const eixoX = d3.axisTop()
             .scale(escalaX)
-            .tickSize(0)
+            .tickSize(width)
+            .ticks(d3.timeYear)
 
           //Eixo y TODO
           const eixoY = d3.axisLeft() 
@@ -135,5 +136,5 @@ d3.json(url)
             
             g.call(eixoX)
               .call(eixoY)
-              .call(g => g.select(".domain").remove())
+              .call( g => g.select(".domain").remove())
     })

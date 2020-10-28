@@ -56,6 +56,7 @@ d3.json(url)
               } else {
                 fim = escalaX(Date.parse(affillitions[i + 1].started_in));
               }
+
               return fim - inicio;
             })
             
@@ -75,6 +76,7 @@ d3.json(url)
             } else {
               fim = escalaX(new Date(d.year + 4, 11, 30));
             }
+
             return fim - inicio;
           })
           .attr('height', escalaY(height))
@@ -119,13 +121,6 @@ d3.json(url)
             .attr("stroke", "#6f42c1")
             .attr("stroke-width", 5)
             .attr("d", line)
-          
-            const localFormat = d3.formatLocale({
-              decimal: ",",
-              thousands: ".",
-              currency: ["R$", " "]
-
-            })
 
           //Eixo x TODO
           const eixoX = d3.axisTop()
@@ -136,7 +131,7 @@ d3.json(url)
           const eixoY = d3.axisLeft() 
             .scale(escalaY)
             .tickSize(0)
-            .tickFormat(localFormat.format("$,.2f"))
+            .tickFormat(d3.format(".2"))
             
             g.call(eixoX)
             g.call(eixoY)

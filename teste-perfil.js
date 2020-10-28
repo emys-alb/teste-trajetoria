@@ -30,18 +30,6 @@ d3.json(url)
         const escalaY = d3.scaleLinear()
             .domain([d3.min(assets, (d) => d.value) , d3.max(assets, (d) => d.value)])
             .range([height - 10, 10]);
-        
-
-        //Eixo x TODO
-        const eixoX = d3.axisBottom()
-        .scale(escalaX)
-
-        //Eixo y TODO
-        const eixoY = d3.axisLeft() 
-        .scale(escalaY)
-
-        svg.call(eixoX)
-        svg.call(eixoY)
       
       //Preencher area
         const escalaCores = d3.scaleOrdinal([
@@ -61,9 +49,9 @@ d3.json(url)
             .attr("fill", (d,i) => { return escalaCores(i) })
             .attr("height", escalaY(height))
             .attr("width", (d, i) => {
-              const inicio = escalaX(Date.parse(d.started_in));
+              const inicio = escalaX(Date.parse(affillitions[i].started_in));
               let fim;
-              if (i + 1 === affillitions.length) {
+              if (i === affillitions.length - 1) {
                 fim = escalaX(Date.now());
               } else {
                 fim = escalaX(Date.parse(affillitions[i + 1].started_in));
@@ -131,4 +119,25 @@ d3.json(url)
             .attr("stroke", "#6f42c1")
             .attr("stroke-width", 5)
             .attr("d", line)
+          
+            const localFormat = d3.formatLocale({
+              decimal: ",",
+              thousands: ".",
+              currency: ["R$", " "]
+
+            })
+
+          //Eixo x TODO
+          const eixoX = d3.axisTop()
+            .scale(escalaX)
+            .tickSize(width)
+
+          //Eixo y TODO
+          const eixoY = d3.axisLeft() 
+            .scale(escalaY)
+            .tickSize(0)
+            .tickFormat(localFormat.format("$,.2f"))
+            
+            g.call(eixoX)
+            g.call(eixoY)
     })

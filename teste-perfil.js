@@ -28,8 +28,8 @@ d3.json(url)
             .range([0, width])
 
         const escalaY = d3.scaleLinear()
-            .domain([d3.min(assets, (d) => d.value) , d3.max(assets, (d) => d.value)])
-            .range([height - 20, 10]);
+            .domain([0 , d3.max(assets, (d) => d.value)])
+            .range([height, 10]);
       
       //Preencher area
         const escalaCores = d3.scaleOrdinal([
@@ -67,7 +67,7 @@ d3.json(url)
             .append("rect")
             .attr("class", "eleicoes")
             .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
-            .attr("y", height + 10)
+            .attr("y", height)
             .attr("width", (d) => {
             const inicio = escalaX(new Date(d.year, 0, 1));
             let fim;
@@ -79,7 +79,7 @@ d3.json(url)
 
             return fim - inicio;
           })
-          .attr('height', escalaY(height))
+          .attr('height', 10)
           .attr('fill', (d) => {
             if(d.elected)
             return '#43a467'; 
@@ -94,7 +94,7 @@ d3.json(url)
           .append("rect")
           .attr("class", "mandatos")
           .attr("fill", "#353839")
-            .attr("height", height + margin.bottom)
+            .attr("height", height + 10)
             .attr("width", 1)
             .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
             .attr("y", 0)
@@ -106,7 +106,7 @@ d3.json(url)
             .append("circle")
               .attr("class", "assetValues")
               .attr("cx", (d) => escalaX(new Date(d.year, 0, 1)))
-              .attr("cy", (d) => escalaY(d.value - 7000))
+              .attr("cy", (d) => escalaY(d.value))
               .attr("r", 7)
               .attr("fill", "#6f42c1")
   
@@ -128,11 +128,21 @@ d3.json(url)
             .tickSize(width)
             .ticks(d3.timeYear)
 
+
+            function divideSaida(d) {
+              let valor;
+              if(d <= 900000) 
+                valor = d/1000 
+              else 
+                valor = d/1000000
+               return valor 
+              }
+
           //Eixo y TODO
           const eixoY = d3.axisLeft() 
             .scale(escalaY)
             .tickSize(0)
-            .tickFormat(d => { return d/1000000 })
+            .tickFormat(divideSaida)
             
             g.call(eixoX)
               .call(eixoY)

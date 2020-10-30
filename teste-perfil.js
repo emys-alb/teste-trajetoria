@@ -125,7 +125,7 @@ d3.json(url)
           //Eixo x TODO
           const eixoX = d3.axisTop()
             .scale(escalaX)
-            .tickSize(width)
+            .tickSize(0)
             .ticks(d3.timeYear)
 
 

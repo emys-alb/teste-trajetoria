@@ -147,4 +147,12 @@ d3.json(url)
             .call(eixoX)
             .call(eixoY)
             .call( g => g.select(".domain").remove())
+
+            g.append("text")
+              .attr("class", "Y label")
+              .attr("text-anchor", "end")
+              .attr("y", 0)
+              .attr("dy", ".75em")
+              .attr("transform", "rotate(-90)")
+              .text("R$ (milhões)");
           })

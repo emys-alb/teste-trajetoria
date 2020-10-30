@@ -47,6 +47,7 @@ d3.json(url)
           .append("rect")
           .attr("class", "affils")
             .attr("fill", (d,i) => { return escalaCores(i) })
+            .attr("x", (d) => escalaX(Date.parse(d.started_in)))
             .attr("height", escalaY(height))
             .attr("width", (d, i) => {
               const inicio = escalaX(Date.parse(affillitions[i].started_in));
@@ -126,8 +127,6 @@ d3.json(url)
           const eixoX = d3.axisTop()
             .scale(escalaX)
             .tickSize(0)
-            .ticks(d3.timeYear)
-
 
             function divideSaida(d) {
               let valor;
@@ -143,8 +142,9 @@ d3.json(url)
             .scale(escalaY)
             .tickSize(0)
             .tickFormat(divideSaida)
-            
-            g.call(eixoX)
-              .call(eixoY)
-              .call( g => g.select(".domain").remove())
-    })
+
+            g
+            .call(eixoX)
+            .call(eixoY)
+            .call( g => g.select(".domain").remove())
+          })

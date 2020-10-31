@@ -144,15 +144,11 @@ d3.json(url)
             .tickFormat(divideSaida)
 
             g
-            .call(eixoX)
             .call(eixoY)
             .call( g => g.select(".domain").remove())
-
-            g.append("text")
-              .attr("class", "Y label")
-              .attr("text-anchor", "end")
-              .attr("y", 0)
-              .attr("dy", ".75em")
+            .call(g => g.selectAll('textoEixo')
+              .attr('dx', -this.width - 15)
+              .attr('text-anchor', 'end')
               .attr("transform", "rotate(-90)")
-              .text("R$ (milhões)");
+              .text("R$ (milhões)"));
           })

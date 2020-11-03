@@ -123,11 +123,19 @@ d3.json(url)
             .attr("stroke-width", 5)
             .attr("d", line)
 
-          //Eixo x TODO
+          //Eixo x
           const eixoX = d3.axisTop()
             .scale(escalaX)
             .tickSize(0)
 
+            g.append('g')
+            .attr('class', 'EixoX')
+            .call(eixoX)
+            .call( g => g.select(".domain").remove())
+            .call(g => g.selectAll('textoEixoX')
+              .attr('dy', height - 15))
+
+              
             function divideSaida(d) {
               let valor;
               if(d <= 900000) 
@@ -135,7 +143,7 @@ d3.json(url)
               else 
                 valor = d/1000000
                return valor 
-              }
+            }
 
           //Eixo y TODO
           const eixoY = d3.axisLeft() 
@@ -143,12 +151,12 @@ d3.json(url)
             .tickSize(0)
             .tickFormat(divideSaida)
 
-            g
+            g.append('g')
+            .attr('class', 'EixoY')
             .call(eixoY)
             .call( g => g.select(".domain").remove())
-            .call(g => g.selectAll('textoEixo')
+            .call(g => g.selectAll('textoEixoY')
               .attr('dx', -this.width - 15)
               .attr('text-anchor', 'end')
-              .attr("transform", "rotate(-90)")
-              .text("R$ (milhões)"));
+              .text("R$"))
           })

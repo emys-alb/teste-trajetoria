@@ -12,6 +12,7 @@ d3.json(url)
         const height = 440
         const width = 880
         const margin = { top: 20, right: 20, bottom: 20, left: 20 }
+      
         //Adiciona o svg no html
         const svg = d3.select("#grafico")
         .append("svg")
@@ -114,7 +115,7 @@ d3.json(url)
           //Criar retas entre os valores
             const line = d3.line()
             .x((d) => escalaX(new Date(d.year, 0, 1)))
-            .y((d) => escalaY(d.value - 7000))
+            .y((d) => escalaY(d.value))
           
           g.append("path")
             .datum(assets)
@@ -138,14 +139,14 @@ d3.json(url)
               
             function divideSaida(d) {
               let valor;
-              if(d <= 900000) 
+              if(d <= 990000) 
                 valor = d/1000 
               else 
                 valor = d/1000000
                return valor 
             }
 
-          //Eixo y TODO
+          //Eixo y (TODO legenda)
           const eixoY = d3.axisLeft() 
             .scale(escalaY)
             .tickSize(0)
@@ -158,5 +159,14 @@ d3.json(url)
             .call(g => g.selectAll('textoEixoY')
               .attr('dx', -this.width - 15)
               .attr('text-anchor', 'end')
-              .text("R$"))
+              .text((d) => {
+                let legenda = 'R$ ';
+                let max = d3.max(assets);
+                if(max < 990000) {
+                  legenda += '(mil)'
+                } else {
+                  legenda += '(milhões)'
+                }
+                return legenda;
+              }))
           })

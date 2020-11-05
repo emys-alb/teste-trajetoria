@@ -1,5 +1,3 @@
-import d3Tip from 'd3-tip';
-
 // URL com dados da candidata
 const url = "https://api-perfilpolitico.serenata.ai/api/candidate/2309762/"
 
@@ -34,12 +32,14 @@ d3.json(url)
             .domain([0 , d3.max(assets, (d) => d.value)])
             .range([height, 10]);
 
-                //Criandos Tooltips
+        //Criandos Tooltips
+
         //Patrimonio
         var tooltipPatrimonio = d3.tip()
         .attr('class', 'tooltip')
         .attr('id', 'tooltipPatrimonio')
-        .html(d => d.value);
+        .html(d => d.value)
+        .offset([10, -10])
 
         svg.call(tooltipPatrimonio)
       

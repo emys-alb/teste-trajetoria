@@ -39,7 +39,6 @@ d3.json(url)
         .attr('class', 'tooltip')
         .attr('id', 'tooltipPatrimonio')
         .html(d => d.value)
-        .offset([10, -10])
 
         svg.call(tooltipPatrimonio)
       

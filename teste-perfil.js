@@ -1,3 +1,5 @@
+import d3Tip from 'd3-tip';
+
 // URL com dados da candidata
 const url = "https://api-perfilpolitico.serenata.ai/api/candidate/2309762/"
 
@@ -32,42 +34,12 @@ d3.json(url)
             .domain([0 , d3.max(assets, (d) => d.value)])
             .range([height, 10]);
 
-        //Criandos Tooltips
+                //Criandos Tooltips
         //Patrimonio
         var tooltipPatrimonio = d3.tip()
         .attr('class', 'tooltip')
         .attr('id', 'tooltipPatrimonio')
         .html(d => d.value);
-        //Filiação
-        var tooltipFiliacao = d3.tip()
-        .attr('class', 'tooltip')
-        .attr('id', 'tooltipFiliacao')
-        .html((d, i) => {
-          let texto = parseDate(d[i].started_in) + " - "
-          if (d.length - 1 === i) {
-            texto += "Atualmente"
-          } else{
-            texto += parseDate(d[i + 1].started_in)
-          }
-        })
-        //Cargo
-        var tooltipCargo = d3.tip()
-          .attr('class', 'tooltip')
-          .attr('id', 'tooltipCargo')
-          .html(d => {
-            let texto;
-            if (d.post === 'SENADOR') {
-              texto = d.post + ': ' + (d.year + 1) + '- ' + (d.year + 7);
-            } else {
-              texto = d.post + ': ' + (d.year + 1) + '-' + (d.year + 4);
-            }
-
-            return texto;
-          })
-
-      svg.call(tooltipPatrimonio)
-      svg.call(tooltipFiliacao)
-      svg.call(tooltipCargo)
       
       //Preencher area
         const escalaCores = d3.scaleOrdinal([
@@ -148,6 +120,8 @@ d3.json(url)
               .attr("cy", (d) => escalaY(d.value))
               .attr("r", 7)
               .attr("fill", "#6f42c1")
+              .on('mouseover', tooltipPatrimonio.show)
+              .on('mouseout', tooltipPatrimonio.hide)
   
           //Criar retas entre os valores
             const line = d3.line()

@@ -40,6 +40,8 @@ d3.json(url)
         .attr('class', 'tooltip')
         .attr('id', 'tooltipPatrimonio')
         .html(d => d.value);
+
+        svg.call(tooltipPatrimonio)
       
       //Preencher area
         const escalaCores = d3.scaleOrdinal([

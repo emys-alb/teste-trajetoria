@@ -11,7 +11,7 @@ d3.json(url)
 
         const height = 440
         const width = 880
-        const margin = { top: 20, right: 20, bottom: 20, left: 20 }
+        const margin = { top: 20, right: 20, bottom: 20, left: 50 }
 
         const configuracoes = d3.formatLocale({
           decimal: ',',
@@ -168,52 +168,55 @@ d3.json(url)
             .attr("stroke", "#6f42c1")
             .attr("stroke-width", 5)
             .attr("d", line)
+       
+          function divideSaida(d) {
+            let valor;
+            if(d <= 990000) 
+              valor = d/1000 
+            else 
+              valor = d/1000000
+             return valor 
+          }
 
-          //Eixo x
-          const eixoX = d3.axisTop()
-            .scale(escalaX)
-            .tickSize(0)
-
-            g.append('g')
-            .attr('class', 'EixoX')
-            .call(eixoX)
-            .call( g => g.select(".domain").remove())
-            .call(g => g.selectAll('textoEixoX')
-              .attr('dy', height - 15))
-
-              
-            function divideSaida(d) {
-              let valor;
-              if(d <= 990000) 
-                valor = d/1000 
-              else 
-                valor = d/1000000
-               return valor 
-            }
-
-          //Eixo y (TODO legenda)
+          //Eixo y
           const eixoY = d3.axisLeft() 
             .scale(escalaY)
             .tickSize(0)
             .tickFormat(divideSaida)
 
-            g.append('g')
-            .attr('class', 'EixoY')
-            .call(eixoY)
-            .call( g => g.select(".domain").remove())
-            .call(g => g.selectAll('textoEixoY')
-              .attr('dx', -width - 15)
-              .attr('text-anchor', 'end')
-              .text((d) => {
-                let legenda = 'R$ ';
-                let max = d3.max(assets);
-                
-                if(max < 990000) {
-                    legenda += '(mil)'
-                  } else {
-                  legenda += '(milhões)'
-                }
-                
-                return legenda;
-              }))
+            g
+              .call(eixoY)
+              .call( g => g.select(".domain").remove())
+    
+            svg.append('text')
+            .attr("transform", "rotate(-90)")
+            .attr('dx', -3)
+            .attr("dy", "1.3em")
+            .style('text-anchor', 'end')
+            .style('font-size', '15px')
+            .text((d) => {
+              let legenda = 'R$ ';
+              let max = d3.max(assets);
+              
+              if(max < 990000) {
+                  legenda += '(mil)'
+                } else {
+                legenda += '(milhões)'
+              }
+              
+              return legenda;
+            })
+
+            //Eixo x
+          const eixoX = d3.axisTop()
+          .scale(escalaX)
+          .tickSize(0)
+
+          g.append('g')
+          .attr('class', 'EixoX')
+          .call(eixoX)
+          .call( g => g.select(".domain").remove())
+          .call(g => g.selectAll('textoEixoX')
+            .attr('dy', height - 15))
+
           })

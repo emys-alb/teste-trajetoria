@@ -54,7 +54,7 @@ d3.json(url)
         .attr('class', 'tooltip')
         .attr('id', 'tooltipFiliacao')
         .html((EVENT, d) =>   d.party + ": " + dataConfig(Date.parse(d.started_in)))
-        .style('y', height/2 + "px")
+       
 
         var tooltipCargo = d3.tip()
         .attr('class', 'tooltip')
@@ -202,16 +202,18 @@ d3.json(url)
             .call(eixoY)
             .call( g => g.select(".domain").remove())
             .call(g => g.selectAll('textoEixoY')
-              .attr('dx', -this.width - 15)
+              .attr('dx', -width - 15)
               .attr('text-anchor', 'end')
               .text((d) => {
                 let legenda = 'R$ ';
                 let max = d3.max(assets);
+                
                 if(max < 990000) {
-                  legenda += '(mil)'
-                } else {
+                    legenda += '(mil)'
+                  } else {
                   legenda += '(milhões)'
                 }
+                
                 return legenda;
               }))
           })

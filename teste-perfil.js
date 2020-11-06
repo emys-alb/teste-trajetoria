@@ -12,7 +12,17 @@ d3.json(url)
         const height = 440
         const width = 880
         const margin = { top: 20, right: 20, bottom: 20, left: 20 }
-      
+
+        const configuracoes = d3.formatLocale({
+          decimal: ',',
+          thousands: '.',
+          grouping: [3],
+          currency: ['R$ ', ' ']
+        });
+
+        const dinheiroConfig = configuracoes.format('$,.2f');
+        const dataConfig = d3.timeFormat('%d/%m/%Y');
+
         //Adiciona o svg no html
         const svg = d3.select("#grafico")
         .append("svg")
@@ -33,15 +43,14 @@ d3.json(url)
             .range([height, 10]);
 
         //Criandos Tooltips
-
         //Patrimonio
         var tooltipPatrimonio = d3.tip()
         .attr('class', 'tooltip')
         .attr('id', 'tooltipPatrimonio')
-        .html(d => d.value)
+        .html((EVENT, d) => dinheiroConfig(d.value))
 
         svg.call(tooltipPatrimonio)
-      
+
       //Preencher area
         const escalaCores = d3.scaleOrdinal([
           "#FFFCBB",
@@ -121,8 +130,8 @@ d3.json(url)
               .attr("cy", (d) => escalaY(d.value))
               .attr("r", 7)
               .attr("fill", "#6f42c1")
-              .on('mouseover', tooltipPatrimonio.show)
-              .on('mouseout', tooltipPatrimonio.hide)
+              .on("mouseover", tooltipPatrimonio.show)					
+              .on("mouseout", tooltipPatrimonio.hide);
   
           //Criar retas entre os valores
             const line = d3.line()

@@ -43,13 +43,32 @@ d3.json(url)
             .range([height, 10]);
 
         //Criandos Tooltips
+        
         //Patrimonio
         var tooltipPatrimonio = d3.tip()
         .attr('class', 'tooltip')
         .attr('id', 'tooltipPatrimonio')
         .html((EVENT, d) => dinheiroConfig(d.value))
 
+        var tooltipFiliacao = d3.tip()
+        .attr('class', 'tooltip')
+        .attr('id', 'tooltipFiliacao')
+        .html((EVENT, d) => dataConfig(Date.parse(d.started_in)))
+
+        var tooltipCargo = d3.tip()
+        .attr('class', 'tooltip')
+        .attr('id', 'tooltipCargo')
+        .html((EVENT, d) => {
+          if (d.post === 'SENADOR') {
+            return d.post + ': ' + (d.year + 1) + '- ' + (d.year + 7);
+          } else {
+            return d.post + ': ' + (d.year + 1) + '-' + (d.year + 4);
+          }
+        })
+
         svg.call(tooltipPatrimonio)
+        svg.call(tooltipFiliacao)
+        svg.call(tooltipCargo)
 
       //Preencher area
         const escalaCores = d3.scaleOrdinal([
@@ -80,6 +99,8 @@ d3.json(url)
 
               return fim - inicio;
             })
+            .on('mouseover', tooltipFiliacao.show)
+            .on('mouseout', tooltipFiliacao.hide)
             
           // Sinaliza se foi eleito ou não
           g.selectAll(".eleicoes")
@@ -90,7 +111,7 @@ d3.json(url)
             .attr("x", (d) => escalaX(new Date(d.year, 0, 1)))
             .attr("y", height)
             .attr("width", (d) => {
-            const inicio = escalaX(new Date(d.year, 0, 1));
+            const inicio = escalaX(new Date(d.year + 1, 0, 1));
             let fim;
             if (d.post === "SENADOR") {
               fim = escalaX(new Date(d.year + 8, 11, 30));
@@ -107,6 +128,8 @@ d3.json(url)
             else
             return '#b54142';
           })
+          .on('mouseover', tooltipCargo.show)
+          .on('mouseout', tooltipCargo.hide)
           
         //Linha dos mandatos
         g.selectAll(".mandatos")
